@@ -1,18 +1,18 @@
-
-
-
-def sort(width: int, height: int, length: int, mass: int) -> str:
+def sort(width: float, height: float, length: float, mass: float) -> str:
     """
-    Provides the name of the stack where a package should go based on its dimensions and mass.
+    Determines the stack category for a package.
 
     Args:
-        width (int): The width of the item in centimeters.
-        height (int): The height of the item in centimeters.
-        length (int): The length of the item in centimeters.
-        mass (int): The mass of the item in kilograms.
+        width (float): Width in centimeters (> 0)
+        height (float): Height in centimeters (> 0)
+        length (float): Length in centimeters (> 0)
+        mass (float): Mass in kilograms (> 0)
 
     Returns:
-        str: The name of the stack where the package should go.
+        str: "STANDARD", "SPECIAL", or "REJECTED"
+
+    Raises:
+        ValueError: If any dimension or mass is <= 0
     """
 
     # Initialize variables
@@ -20,26 +20,25 @@ def sort(width: int, height: int, length: int, mass: int) -> str:
     is_heavy = False
 
     # Cannot have negative dimensions or mass
-    if width < 0 or height < 0 or length < 0 or mass < 0:
+    if width <= 0 or height <= 0 or length <= 0 or mass <= 0:
         raise ValueError("Dimensions and mass must be non-negative integers.")
 
     # Calculate the volume in cubic centimeters
     volume = width * height * length
 
-    if volume > 1000000:
+    if volume >= 1000000 or width >= 150 or height >= 150 or length >= 150:
         is_bulky = True
 
-    if mass > 20:
+    if mass >= 20:
         is_heavy = True
 
     # Determine the stack based on the conditions
     if is_bulky and is_heavy:
-        stack_name = "REJECTED"
+        return "REJECTED"
     elif is_bulky or is_heavy:
-        stack_name = "SPECIAL"
-    else:
-        stack_name = "STANDARD"
+        return "SPECIAL"
 
-    return stack_name
+    return "STANDARD"
+
 
 
